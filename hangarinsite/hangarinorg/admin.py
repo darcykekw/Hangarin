@@ -27,7 +27,7 @@ class SubTaskAdmin(admin.ModelAdmin):
     list_filter = ("status",)
     
     def parent_task_name(self, obj):
-        return obj.parent.title
+        return obj.parent_task.title
     parent_task_name.short_description = "Parent Task"
 
 @admin.register(Category)
