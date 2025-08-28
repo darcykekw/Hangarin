@@ -14,12 +14,12 @@ class Command(BaseCommand):
         count = options.get('count', 10)
         fake = Faker()
         
-        # Create categories if they don't exist
+        
         categories_data = ['Work', 'School', 'Personal', 'Finance', 'Projects']
         for cat_name in categories_data:
             Category.objects.get_or_create(name=cat_name)
         
-        # Create priorities if they don't exist
+        
         priorities_data = ['high', 'medium', 'low', 'critical', 'optional']
         for pri_name in priorities_data:
             Priority.objects.get_or_create(name=pri_name)
@@ -28,7 +28,7 @@ class Command(BaseCommand):
         priorities = list(Priority.objects.all())
         status_options = ['Pending', 'In Progress', 'Completed']
         
-        # Create tasks
+        
         for i in range(count):
             Task.objects.create(
                 title=fake.sentence(nb_words=5),
@@ -41,17 +41,17 @@ class Command(BaseCommand):
         
         tasks = list(Task.objects.all())
         
-        # Create notes
+        
         for i in range(count):
             Note.objects.create(
                 task=random.choice(tasks),
                 content=fake.paragraph(nb_sentences=2),
             )
         
-        # Try different possible field names for the SubTask relationship
-        # First, let's check what field name actually exists
+        
+        
         try:
-            # Try the most common field names
+
             if hasattr(SubTask, 'parent_task'):
                 for i in range(count):
                     SubTask.objects.create(
