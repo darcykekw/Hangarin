@@ -1,6 +1,5 @@
 from datetime import timedelta
 from django.core.management.base import BaseCommand
-from faker import Faker
 from django.utils import timezone
 from hangarinorg.models import Category, Priority, Task, SubTask, Note
 import random
@@ -13,7 +12,11 @@ class Command(BaseCommand):
     
     def handle(self, *args, **options):
         count = options.get('count', 50)
-        
+
+        Task.objects.all().delete()
+        SubTask.objects.all().delete()
+        Note.objects.all().delete()
+
         work_cat, _ = Category.objects.get_or_create(name='Work')
         school_cat, _ = Category.objects.get_or_create(name='School') 
         personal_cat, _ = Category.objects.get_or_create(name='Personal')
