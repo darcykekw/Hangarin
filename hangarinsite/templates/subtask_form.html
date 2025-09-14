@@ -1,0 +1,48 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block content %}
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">Home</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">{% if object %}Update SubTask {% else %} Add New SubTask {% endif %}</div>
+                        <div class="card-category">Page Subtitle</div>
+                    </div>
+
+                    <div class="col-md-6">
+                    <div class="card-body">
+                        <form class="" action="" method="post" novalidate>
+                            {% csrf_token %} 
+                            {% include 'includes/form.html' %}
+
+                            <div class="form-group">
+                                <div class="col-md-12 col-sm-3">
+                                    <button type="submit" class="btn btn-light-purple btn-rounded">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+
+<style>
+    .btn-light-purple {
+        background-color: #9370DB;
+        border-color: #9370DB;
+        color: white;
+    }
+    
+    .btn-light-purple:hover {
+        background-color: #7B68EE;
+        border-color: #7B68EE;
+        color: white;
+    }
+</style>
+{% endblock %}

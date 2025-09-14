@@ -1,0 +1,112 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block content %}
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">Home</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">List of SubTasks</div>
+                        <div class="card-category">Page Subtitle</div>
+                    </div>
+                    <br />
+                    <div class="col-md-12 row">
+                        <div class="col-md-6">
+                            <form class="navbar-left navbar-form nav-search mr-md-3" action="">
+                                <div class="input-group">
+                                    <input type="text" placeholder="Search ..." class="form-control" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i class="la la-search search-icon"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="pull-right">
+                                <a href="{% url 'subtask-add' %}" class="btn btn-pink btn-rounded">Add SubTask</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped mt-3">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for object in object_list %}
+                                <tr>
+                                    <td>{{ object.sub_title }}</td>
+                                    <td>{{ object.sub_status }}</td>
+                                    <td>
+                                        <a href="subtask_list/{{ object.id }}" class="btn btn-edit">Edit</a>
+                                        <a href="subtask_list/{{ object.id }}/delete" class="btn btn-delete">Delete</a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="3" style="text-align: center">
+                                        <p class="text-sm font-weight-bold mb-0">No Records Found</p>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% include 'includes/pagination.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+
+<style>
+    .btn-pink {
+        background-color: #e91e63;
+        border-color: #e91e63;
+        color: white;
+    }
+    
+    .btn-pink:hover {
+        background-color: #c2185b;
+        border-color: #c2185b;
+        color: white;
+    }
+    
+    .btn-edit {
+        background-color: #000000;
+        border-color: #000000;
+        color: white;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        margin-right: 0.5rem;
+    }
+    
+    .btn-edit:hover {
+        background-color: #333333;
+        border-color: #333333;
+        color: white;
+    }
+    
+    .btn-delete {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        color: white;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+    
+    .btn-delete:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+        color: white;
+    }
+</style>
+{% endblock %}
