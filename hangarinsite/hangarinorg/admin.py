@@ -14,22 +14,26 @@ class NoteInline(admin.StackedInline):
     fields = ("note_content", "created_at")
     readonly_fields = ("created_at",)   
 
+# Category
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("category_name",)
     search_fields = ("category_name",)
 
+# Note
 @admin.register(Note)
 class NoteAdmin(admin.ModelAdmin):
     list_display = ("note_task", "note_content", "created_at",)
     list_filter = ("created_at",)
-    search_fields = ("note_content",)    
+    search_fields = ("note_content",)
 
+# Priority
 @admin.register(Priority)
 class PriorityAdmin(admin.ModelAdmin):
     list_display = ("priority_name",)
     search_fields = ("priority_name",)
 
+# SubTask
 @admin.register(SubTask)
 class SubTaskAdmin(admin.ModelAdmin):
     list_display = ("sub_title", "sub_status", "get_parent_task_name",)
@@ -42,7 +46,8 @@ class SubTaskAdmin(admin.ModelAdmin):
             return sub_parent_task.task_title
         except Task.DoesNotExist:
             return None
-        
+
+# Task
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
     list_display = ("task_title", "task_status", "task_deadline", "task_priority", "task_category")
@@ -50,4 +55,3 @@ class TaskAdmin(admin.ModelAdmin):
     search_fields = ("task_title", "task_description")
 
     inlines = [SubTaskInline, NoteInline]
-    
