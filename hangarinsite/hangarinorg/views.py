@@ -4,12 +4,30 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from hangarinorg.models import Priority, Category, Task, Note, SubTask
 from hangarinorg.forms import PriorityForm, CategoryForm, TaskForm, NoteForm, SubTaskForm
 from django.urls import reverse_lazy
+from django.db.models import Q
+from django.utils import timezone
 
 class HomePageView(ListView):
     model = Priority
     context_object_name = 'home'
     template_name = "home.html"
-   
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["total_tasks"] = Task.objects.count()
+        context["total_notes"] = Note.objects.count()
+
+        context["pending_tasks"] = Task.objects.filter(task_status="Pending").count()
+        context["completed_tasks"] = Task.objects.filter(task_status="Completed").count()
+        context["in_progress_tasks"] = Task.objects.filter(task_status="In Progress").count()
+
+        context["recent_tasks"] = Task.objects.order_by('-created_at')[:5]
+
+        today = timezone.now().date()
+
+        return context
+
+
 # Category
 class CategoryList(ListView):
     model = Category
@@ -118,12 +136,33 @@ class TaskCreateView(CreateView):
     form_class = TaskForm
     template_name = 'task_form.html'
     success_url = reverse_lazy('task-list')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        context['priorities'] = Priority.objects.all()
+        return context
+    
+    def form_valid(self, form):
+        print("Form is valid, saving...")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        print("Form is invalid!")
+        print("Form errors:", form.errors)
+        return super().form_invalid(form)
 
 class TaskUpdateView(UpdateView):
     model = Task
     form_class = TaskForm
     template_name = 'task_form.html'
     success_url = reverse_lazy('task-list')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        context['priorities'] = Priority.objects.all()
+        return context
 
 class TaskDeleteView(DeleteView):
     model = Task

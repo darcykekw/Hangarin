@@ -1,31 +1,84 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 <div class="content">
     <div class="container-fluid">
-        <h4 class="page-title">Home</h4>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Delete Category</div>
-                        <div class="card-category">Page Subtitle</div>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm rounded-3">
+                    <div class="card-header bg-light border-0 py-4">
+                        <div class="text-center">
+                            <div class="icon-xl bg-danger bg-opacity-10 text-danger rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                                <i class="ti ti-alert-triangle fs-1"></i>
+                            </div>
+                            <h3 class="fw-bold text-dark mb-2">Delete Category</h3>
+                            <p class="text-muted mb-0">This action cannot be undone</p>
+                        </div>
                     </div>
 
-                    <div class="col-md-6">
-                    <div class="card-body">
+                    <div class="card-body p-4">
+                        <div class="text-center mb-4">
+                            <p class="lead text-dark mb-3">Are you sure you want to delete the category:</p>
+                            <div class="alert alert-light border rounded-3 py-3 mb-4">
+                                <h5 class="fw-bold text-danger mb-0">"{{ object }}"</h5>
+                            </div>
+                            <p class="text-muted small">
+                                <i class="ti ti-info-circle me-1"></i>
+                                All tasks associated with this category will remain but will lose their category assignment.
+                            </p>
+                        </div>
+
                         <form class="" action="" method="post" novalidate>
-                            <p>Are you sure you want to delete "{{ object }}"?</p>
-                    {% csrf_token %} {% include 'includes/form.html' %}
-                            <div class="form-group">
-                                <div class="col-md-12 col-sm-3">
-                                    <button type="submit" class="btn btn-primary btn-rounded">Submit</button>
-                                </div>
+                            {% csrf_token %}
+                            {% include 'includes/form.html' %}
+                            
+                            <div class="d-flex gap-3 justify-content-center mt-4">
+                                <a href="{% url 'category-list' %}" class="btn btn-outline-secondary btn-lg px-4">
+                                    <i class="ti ti-arrow-left me-2"></i>Cancel
+                                </a>
+                                <button type="submit" class="btn btn-danger btn-lg px-4">
+                                    <i class="ti ti-trash me-2"></i>Delete Category
+                                </button>
                             </div>
                         </form>
-                    </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div> 
+</div>
+
+<style>
+.btn-purple {
+    background-color: #8b5cf6;
+    border-color: #8b5cf6;
+    color: white;
+}
+
+.btn-purple:hover {
+    background-color: #7c3aed;
+    border-color: #7c3aed;
+    color: white;
+}
+
+.btn-outline-purple {
+    border-color: #8b5cf6;
+    color: #8b5cf6;
+}
+
+.btn-outline-purple:hover {
+    background-color: #8b5cf6;
+    color: white;
+}
+
+.bg-purple {
+    background-color: #8b5cf6 !important;
+}
+
+.text-purple {
+    color: #8b5cf6 !important;
+}
+
+.bg-light-purple {
+    background-color: #e9d8fd !important;
+}
+</style>
 {% endblock %}

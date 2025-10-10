@@ -38,7 +38,7 @@ class Task(BaseModel):
             ("In Progress", "In Progress"),
             ("Completed", "Completed"),
         ],
-        default = "pending",
+        default = "Pending",
         verbose_name="Status"
     )
     task_category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Task Category")
@@ -63,7 +63,7 @@ class SubTask(BaseModel):
             ("In Progress", "In Progress"),
             ("Completed", "Completed"),
         ],
-        default = "pending",
+        default = "Pending",
         verbose_name="Status"
     )
     sub_parent_task = models.ForeignKey(Task, on_delete=models.CASCADE, verbose_name="Parent Task")
