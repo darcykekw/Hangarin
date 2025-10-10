@@ -35,6 +35,14 @@ class CategoryList(ListView):
     template_name = 'category_list.html'
     paginate_by = 5
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        query = self.request.GET.get('q')
+
+        if query:
+            qs = qs.filter(category_name__icontains=query)
+        return qs
+
 class CategoryCreateView(CreateView):
     model = Category
     form_class = CategoryForm
@@ -58,6 +66,22 @@ class NoteList(ListView):
     context_object_name = 'note'
     template_name = 'note_list.html'
     paginate_by = 5
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        query = self.request.GET.get('q')
+
+        if query:
+            qs = qs.filter(note_content__icontains=query)
+        return qs
+    
+    def get_ordering(self):
+        allowed = ["note_content", "created_at"]
+        sort_by = self.request.GET.get("sort_by")
+
+        if sort_by in allowed:
+            return sort_by
+        return "-created_at"
 
 class NoteCreateView(CreateView):
     model = Note
@@ -107,6 +131,22 @@ class SubTaskList(ListView):
     template_name = 'subtask_list.html'
     paginate_by = 5
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        query = self.request.GET.get('q')
+
+        if query:
+            qs = qs.filter(sub_title__icontains=query)
+        return qs
+    
+    def get_ordering(self):
+        allowed = ["sub_title", "sub_status", "created_at"]
+        sort_by = self.request.GET.get("sort_by")
+
+        if sort_by in allowed:
+            return sort_by
+        return "sub_title"    
+
 class SubTaskCreateView(CreateView):
     model = SubTask
     form_class = SubTaskForm
@@ -130,6 +170,22 @@ class TaskList(ListView):
     context_object_name = 'task'
     template_name = 'task_list.html'
     paginate_by = 5
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        query = self.request.GET.get('q')
+
+        if query:
+            qs = qs.filter(task_title__icontains=query)
+        return qs
+    
+    def get_ordering(self):
+        allowed = ["task_title", "task_deadline", "task_status"]
+        sort_by = self.request.GET.get("sort_by")
+
+        if sort_by in allowed:
+            return sort_by
+        return "task_title"
 
 class TaskCreateView(CreateView):
     model = Task

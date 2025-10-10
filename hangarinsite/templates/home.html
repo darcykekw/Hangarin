@@ -1,18 +1,389 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 <div class="content">
-    <div class="container-fluid">
-        <h4 class="page-title">Home</h4>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Page Title</div>
-                        <div class="card-category">Page Subtitle</div>
-                    </div>
-                    <div class="card-body">Hello, World</div>
-                </div>
-            </div>
-        </div>
+  <div class="container-fluid">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h4 class="page-title fw-bold mb-1">Home Page</h4>
+        <p class="text-muted mb-0">Welcome to your task management dashboard</p>
+      </div>
+      <div class="d-flex gap-2">
+        <!-- Safe URL for New Task -->
+        {% url 'task-create' as task_create_url %}
+        {% if task_create_url %}
+        <a href="{{ task_create_url }}" class="btn btn-primary btn-sm">
+          <i class="fas fa-plus me-1"></i>New Task
+        </a>
+        {% else %}
+        <a href="/tasks/create/" class="btn btn-primary btn-sm">
+          <i class="fas fa-plus me-1"></i>New Task
+        </a>
+        {% endif %}
+      </div>
     </div>
+
+    <!-- Main Content - Reversed Layout -->
+    <div class="row g-4">
+      <!-- Left Column - Quick Actions -->
+      <div class="col-xl-4">
+        <!-- Quick Actions -->
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-header bg-white border-0">
+            <h5 class="card-title mb-0">Quick Actions</h5>
+          </div>
+          <div class="card-body">
+            <div class="d-grid gap-2">
+              <!-- Safe URL for Task List -->
+              {% url 'task-list' as task_list_url %}
+              {% if task_list_url %}
+              <a href="{{ task_list_url }}" class="btn btn-action btn-outline-primary text-start p-3">
+              {% else %}
+              <a href="/tasks/" class="btn btn-action btn-outline-primary text-start p-3">
+              {% endif %}
+                <div class="d-flex align-items-center">
+                  <div class="action-icon me-3">
+                    <i class="fas fa-tasks"></i>
+                  </div>
+                  <div>
+                    <h6 class="mb-1">View All Tasks</h6>
+                    <p class="small text-muted mb-0">Manage your tasks</p>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Safe URL for Note List -->
+              {% url 'note-list' as note_list_url %}
+              {% if note_list_url %}
+              <a href="{{ note_list_url }}" class="btn btn-action btn-outline-info text-start p-3">
+              {% else %}
+              <a href="/notes/" class="btn btn-action btn-outline-info text-start p-3">
+              {% endif %}
+                <div class="d-flex align-items-center">
+                  <div class="action-icon me-3">
+                    <i class="fas fa-sticky-note"></i>
+                  </div>
+                  <div>
+                    <h6 class="mb-1">View Notes</h6>
+                    <p class="small text-muted mb-0">Check your notes</p>
+                  </div>
+                </div>
+              </a>
+
+              <!-- Safe URL for Subtask List -->
+              {% url 'subtask-list' as subtask_list_url %}
+              {% if subtask_list_url %}
+              <a href="{{ subtask_list_url }}" class="btn btn-action btn-outline-warning text-start p-3">
+              {% else %}
+              <a href="/subtasks/" class="btn btn-action btn-outline-warning text-start p-3">
+              {% endif %}
+                <div class="d-flex align-items-center">
+                  <div class="action-icon me-3">
+                    <i class="fas fa-list-check"></i>
+                  </div>
+                  <div>
+                    <h6 class="mb-1">View Subtasks</h6>
+                    <p class="small text-muted mb-0">Manage subtasks</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Daily Inspiration -->
+            <div class="mt-4 p-3 bg-light rounded">
+              <p class="small text-muted mb-2">Inspiration Quote</p>
+              <p class="fst-italic mb-2">"The only way to do great work is to love what you do."</p>
+              <p class="small text-muted mb-0 text-end">- Steve Jobs</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column - Stats Cards -->
+      <div class="col-xl-8">
+        <!-- Stats Cards -->
+        <div class="row g-3 mb-4">
+          <div class="col-xl-6 col-md-6">
+            <div class="card stat-card border-0 shadow-sm">
+              <div class="card-body">
+                <div class="d-flex align-items-center">
+                  <div class="flex-shrink-0">
+                    <div class="icon-wrapper bg-primary bg-opacity-10">
+                      <i class="fas fa-tasks text-primary"></i>
+                    </div>
+                  </div>
+                  <div class="flex-grow-1 ms-3">
+                    <p class="text-muted mb-1">Total Tasks</p>
+                    <h3 class="mb-0">{{ total_tasks|default:0 }}</h3>
+                  </div>
+                </div>
+                <div class="mt-3">
+                  <div class="progress" style="height: 4px;">
+                    <div class="progress-bar bg-primary" style="width: 100%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 col-md-6">
+            <div class="card stat-card border-0 shadow-sm">
+              <div class="card-body">
+                <div class="d-flex align-items-center">
+                  <div class="flex-shrink-0">
+                    <div class="icon-wrapper bg-warning bg-opacity-10">
+                      <i class="fas fa-spinner text-warning"></i>
+                    </div>
+                  </div>
+                  <div class="flex-grow-1 ms-3">
+                    <p class="text-muted mb-1">In Progress</p>
+                    <h3 class="mb-0">{{ in_progress_tasks|default:0 }}</h3>
+                  </div>
+                </div>
+                <div class="mt-3">
+                  <div class="progress" style="height: 4px;">
+                    <div class="progress-bar bg-warning" style="width: {% widthratio in_progress_tasks total_tasks 100 %}%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 col-md-6">
+            <div class="card stat-card border-0 shadow-sm">
+              <div class="card-body">
+                <div class="d-flex align-items-center">
+                  <div class="flex-shrink-0">
+                    <div class="icon-wrapper bg-info bg-opacity-10">
+                      <i class="fas fa-clock text-info"></i>
+                    </div>
+                  </div>
+                  <div class="flex-grow-1 ms-3">
+                    <p class="text-muted mb-1">Pending</p>
+                    <h3 class="mb-0">{{ pending_tasks|default:0 }}</h3>
+                  </div>
+                </div>
+                <div class="mt-3">
+                  <div class="progress" style="height: 4px;">
+                    <div class="progress-bar bg-info" style="width: {% widthratio pending_tasks total_tasks 100 %}%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 col-md-6">
+            <div class="card stat-card border-0 shadow-sm">
+              <div class="card-body">
+                <div class="d-flex align-items-center">
+                  <div class="flex-shrink-0">
+                    <div class="icon-wrapper bg-success bg-opacity-10">
+                      <i class="fas fa-check-circle text-success"></i>
+                    </div>
+                  </div>
+                  <div class="flex-grow-1 ms-3">
+                    <p class="text-muted mb-1">Completed</p>
+                    <h3 class="mb-0">{{ completed_tasks|default:0 }}</h3>
+                  </div>
+                </div>
+                <div class="mt-3">
+                  <div class="progress" style="height: 4px;">
+                    <div class="progress-bar bg-success" style="width: {% widthratio completed_tasks total_tasks 100 %}%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress Overview -->
+        <div class="card border-0 shadow-sm">
+          <div class="card-header bg-white border-0">
+            <h5 class="card-title mb-0">Progress Overview</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="progress-item mb-4">
+                  <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Overall Completion</span>
+                    <span class="fw-bold">{% widthratio completed_tasks total_tasks 100 %}%</span>
+                  </div>
+                  <div class="progress" style="height: 10px;">
+                    <div class="progress-bar bg-success" style="width: {% widthratio completed_tasks total_tasks 100 %}%"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="progress-item mb-4">
+                  <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Active Tasks</span>
+                    <span class="fw-bold">{% widthratio in_progress_tasks total_tasks 100 %}%</span>
+                  </div>
+                  <div class="progress" style="height: 10px;">
+                    <div class="progress-bar bg-primary" style="width: {% widthratio in_progress_tasks total_tasks 100 %}%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="row text-center">
+              <div class="col-4">
+                <div class="border-end">
+                  <h4 class="text-primary mb-1">{{ due_today_tasks|default:0 }}</h4>
+                  <small class="text-muted">Due Today</small>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="border-end">
+                  <h4 class="text-warning mb-1">{{ overdue_tasks|default:0 }}</h4>
+                  <small class="text-muted">Overdue</small>
+                </div>
+              </div>
+              <div class="col-4">
+                <div>
+                  <h4 class="text-info mb-1">{{ high_priority_tasks|default:0 }}</h4>
+                  <small class="text-muted">High Priority</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Tasks -->
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="card border-0 shadow-sm">
+          <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0">Recent Tasks</h5>
+            <!-- Safe URL for Task List -->
+            {% url 'task-list' as task_list_url %}
+            {% if task_list_url %}
+            <a href="{{ task_list_url }}" class="btn btn-outline-primary btn-sm">View All</a>
+            {% else %}
+            <a href="/tasks/" class="btn btn-outline-primary btn-sm">View All</a>
+            {% endif %}
+          </div>
+          <div class="card-body">
+            {% if recent_tasks %}
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead>
+                  <tr>
+                    <th>Task</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Due Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for task in recent_tasks %}
+                  <tr>
+                    <td>
+                      <div>
+                        <h6 class="mb-0">{{ task.task_title }}</h6>
+                        {% if task.task_description %}
+                        <small class="text-muted">{{ task.task_description|truncatewords:6 }}</small>
+                        {% endif %}
+                      </div>
+                    </td>
+                    <td>
+                      <span class="badge 
+                        {% if task.task_status == 'Completed' %}bg-success
+                        {% elif task.task_status == 'In Progress' %}bg-warning
+                        {% else %}bg-secondary{% endif %}">
+                        {{ task.task_status }}
+                      </span>
+                    </td>
+                    <td>
+                      <span class="badge 
+                        {% if task.task_priority == 'High' %}bg-danger
+                        {% elif task.task_priority == 'Medium' %}bg-warning
+                        {% else %}bg-info{% endif %}">
+                        {{ task.task_priority }}
+                      </span>
+                    </td>
+                    <td>
+                      <span class="{% if task.is_overdue %}text-danger fw-bold{% endif %}">
+                        {{ task.task_deadline|date:"M d, Y" }}
+                      </span>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-{% endblock %} 
+
+<style>
+  .stat-card {
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1) !important;
+  }
+
+  .stat-card:nth-child(1) { border-left-color: #0d6efd; }
+  .stat-card:nth-child(2) { border-left-color: #ffc107; }
+  .stat-card:nth-child(3) { border-left-color: #0dcaf0; }
+  .stat-card:nth-child(4) { border-left-color: #198754; }
+
+  .icon-wrapper {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .icon-wrapper i {
+    font-size: 1.4rem;
+  }
+
+  .btn-action {
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    text-decoration: none;
+  }
+
+  .btn-action:hover {
+    transform: translateX(5px);
+    background-color: rgba(0,0,0,0.02);
+    text-decoration: none;
+  }
+
+  .action-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.05);
+  }
+
+  .badge {
+    font-weight: 500;
+    padding: 0.5em 0.75em;
+  }
+
+  .table th {
+    font-weight: 600;
+    color: #495057;
+    border-bottom: 2px solid #e9ecef;
+    font-size: 0.875rem;
+  }
+</style>
+{% endblock %}
