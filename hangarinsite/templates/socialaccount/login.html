@@ -1,0 +1,40 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Confirm Google Login</title>
+  <link rel="stylesheet" href="{% static 'css/styles.min.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body class="d-flex align-items-center justify-content-center min-vh-100 bg-light">
+
+  <div class="card shadow p-4" style="max-width: 400px; width: 100%;">
+    <div class="text-center mb-4">
+      <img src="{% static 'images/logos/hangarin-logo.svg' %}" width="120" alt="logo">
+      <h3 class="mt-2">Confirm Sign In</h3>
+      <p class="text-muted">
+        You are about to sign in using your
+        <strong>{{ provider.name }}</strong> account.
+      </p>
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger w-100 mb-3">
+        <i class="fab fa-google me-2"></i> Continue with {{ provider.name }}
+      </button>
+    </form>
+
+    <div class="text-center">
+      <a href="{% url 'account_login' %}" class="btn btn-outline-secondary w-100">
+        Cancel
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>

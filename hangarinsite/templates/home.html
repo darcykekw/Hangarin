@@ -1,27 +1,7 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} 
+{% load static %} 
+{% block content %}
 <div class="content">
-  <div class="container-fluid">
-    <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <div>
-        <h4 class="page-title fw-bold mb-1">Home Page</h4>
-        <p class="text-muted mb-0">Welcome to your task management dashboard</p>
-      </div>
-      <div class="d-flex gap-2">
-        <!-- Safe URL for New Task -->
-        {% url 'task-create' as task_create_url %}
-        {% if task_create_url %}
-        <a href="{{ task_create_url }}" class="btn btn-primary btn-sm">
-          <i class="fas fa-plus me-1"></i>New Task
-        </a>
-        {% else %}
-        <a href="/tasks/create/" class="btn btn-primary btn-sm">
-          <i class="fas fa-plus me-1"></i>New Task
-        </a>
-        {% endif %}
-      </div>
-    </div>
-
     <!-- Main Content - Reversed Layout -->
     <div class="row g-4">
       <!-- Left Column - Quick Actions -->

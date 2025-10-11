@@ -1,0 +1,129 @@
+{% load socialaccount %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign Up | Hangarin</title>
+  <link rel="shortcut icon" type="image/png" href="{% static 'images/logos/hangarin.png' %}" />
+  <link rel="stylesheet" href="{% static 'css/styles.min.css' %}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .btn i { vertical-align: middle; }
+    .btn-outline-danger:hover {
+      background-color: #dc3545; color: #fff; border-color: #dc3545;
+    }
+    .btn-outline-dark:hover {
+      background-color: #000; color: #fff; border-color: #000;
+    }
+    .divider { position: relative; text-align: center; }
+    .divider hr { margin: 1rem 0; }
+    .divider span {
+      background: #fff;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 0 10px;
+      font-size: 0.875rem;
+      color: #6c757d;
+    }
+    .form-control {
+      border-radius: 10px;
+      padding: 10px 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6"
+       data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+    <div class="position-relative overflow-hidden radial-gradient min-vh-100
+                d-flex align-items-center justify-content-center">
+      <div class="d-flex align-items-center justify-content-center w-100">
+        <div class="row justify-content-center w-100">
+          <div class="col-md-8 col-lg-6 col-xxl-3">
+            <div class="card mb-0">
+              <div class="card-body">
+                <a href="{% url 'home' %}" class="text-nowrap logo-img text-center d-block py-3 w-100">
+                  <img src="{% static 'images/logos/hangarin-logo.svg' %}" width="180" alt="Hangarin Logo">
+                </a>
+                <p class="text-center text-muted mb-4">Create your Hangarin account</p>
+
+                <!-- ✅ Custom-styled working signup form -->
+                <form method="post" action="{% url 'account_signup' %}">
+                  {% csrf_token %}
+                  {{ form.non_field_errors }}
+
+                  <div class="mb-3">
+                    <label for="id_username" class="form-label">Username</label>
+                    <input type="text" name="username" id="id_username"
+                           class="form-control" placeholder="Enter username"
+                           value="{{ form.username.value|default:'' }}">
+                    {{ form.username.errors }}
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="id_email" class="form-label">Email (optional)</label>
+                    <input type="email" name="email" id="id_email"
+                           class="form-control" placeholder="Enter email address"
+                           value="{{ form.email.value|default:'' }}">
+                    {{ form.email.errors }}
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="id_password1" class="form-label">Password</label>
+                    <input type="password" name="password1" id="id_password1"
+                           class="form-control" placeholder="Enter password">
+                    {{ form.password1.errors }}
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="id_password2" class="form-label">Confirm Password</label>
+                    <input type="password" name="password2" id="id_password2"
+                           class="form-control" placeholder="Re-enter password">
+                    {{ form.password2.errors }}
+                  </div>
+
+                  <button type="submit" class="btn btn-primary w-100 py-2 fs-5 mb-3 rounded-2">
+                    Sign Up
+                  </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="divider">
+                  <hr>
+                  <span>or</span>
+                </div>
+
+                <!-- ✅ Social Signup Buttons -->
+                <a href="{% provider_login_url 'google' %}"
+                   class="btn btn-outline-danger w-100 py-2 mb-3 rounded-2">
+                  <i class="fab fa-google me-2"></i> Continue with Google
+                </a>
+
+                <a href="{% provider_login_url 'github' %}"
+                   class="btn btn-outline-dark w-100 py-2 mb-4 rounded-2">
+                  <i class="fab fa-github me-2"></i> Continue with GitHub
+                </a>
+
+                <!-- Link to login -->
+                <div class="d-flex align-items-center justify-content-center">
+                  <p class="fs-6 mb-0 text-muted">Already have an account?</p>
+                  <a class="text-primary fw-bold ms-2" href="{% url 'account_login' %}">Sign In</a>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'libs/jquery/dist/jquery.min.js' %}"></script>
+  <script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>
