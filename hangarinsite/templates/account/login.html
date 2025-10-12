@@ -38,7 +38,17 @@
                     Your username and password didn't match. Please try again.
                   </div>
                   {% endif %}
-                  
+
+                 <div class="text-center mb-3">
+                    <p>Sign in with:</p>
+                    <a href="{% provider_login_url 'google' %}" class="btn btn-link btn-floating mx-1">
+                      <i class="fab fa-google"></i>
+                    </a>
+                         <a href="{% provider_login_url 'github' %}" class="btn btn-link btn-floating mx-1">
+                        <i class="fab fa-github"></i>
+                        </a> 
+                  </div>
+                  <p class="text-center">or:</p>
 
                   <!-- Username / Email -->
                   <div class="form-outline mb-4">
