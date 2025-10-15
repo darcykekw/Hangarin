@@ -20,7 +20,7 @@ class HomePageView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["total_tasks"] = Task.objects.count()
         context["total_notes"] = Note.objects.count()
-
+    
         context["pending_tasks"] = Task.objects.filter(task_status="Pending").count()
         context["completed_tasks"] = Task.objects.filter(task_status="Completed").count()
         context["in_progress_tasks"] = Task.objects.filter(task_status="In Progress").count()
