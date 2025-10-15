@@ -27,7 +27,7 @@ from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("accounts/", include("allauth.urls")), # allauth routes
+    path("accounts/", include("allauth.urls")),
     path('', HomePageView.as_view(), name='home'),
     path('', include('pwa.urls')),
 
