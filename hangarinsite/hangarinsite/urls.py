@@ -29,8 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("accounts/", include("allauth.urls")), # allauth routes
     path('', HomePageView.as_view(), name='home'),
-    
-
+    path('', include('pwa.urls')),
 
     # Category
     path('category_list', CategoryList.as_view(), name='category-list'),

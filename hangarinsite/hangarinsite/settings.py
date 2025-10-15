@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
+    'pwa',
 ]
 
 if "pythonanywhere" in socket.gethostname():
@@ -157,3 +158,51 @@ ACCOUNT_SIGNUP_FIELDS = [
 "password1*",
 "password2*",
 ]
+
+# --- Progressive Web App Settings ---
+PWA_APP_NAME = 'Hangarin'
+PWA_APP_DESCRIPTION = "Organize your tasks"
+PWA_APP_THEME_COLOR = '#0d6efd' 
+PWA_APP_BACKGROUND_COLOR = '#FFFFFF'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/' 
+PWA_APP_STATUS_BAR_COLOR = 'default'
+
+PWA_APP_ICONS = [
+    {
+        'src': '/static/images/logos/hangarin.png',
+        'sizes': '1024x1024', 
+        'type': 'image/png'
+    }
+]
+
+PWA_APP_ICONS_APPLE = [
+    {
+        'src': '/static/images/logos/hangarin.png',
+        'sizes': '1024x1024',
+        'type': 'image/png'
+    }
+]
+
+PWA_APP_SCREENSHOTS = [
+    {
+        'src': '/static/images/screenshots/wide.png',
+        'sizes': '1280x720', 
+        'type': 'image/png',
+        'form_factor': 'wide',
+        'label': 'Hangarin Desktop View'
+    },
+    {
+        'src': '/static/images/screenshots/narrow.png',
+        'sizes': '375x667',
+        'type': 'image/png', 
+        'form_factor': 'narrow',
+        'label': 'Hangarin Mobile View'
+    }
+]
+
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'en-US'
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')

@@ -15,13 +15,20 @@ class Command(BaseCommand):
         fake = Faker()
 
         for _ in range(count):
+            category, _ = Category.objects.get_or_create(
+                category_name=fake.word().title()
+            )
+            priority, _ = Priority.objects.get_or_create(
+                priority_name=fake.random_element(elements=["High", "Medium", "Low"])
+            )
+            
             Task.objects.create(
                 task_title=fake.sentence(nb_words=5),
                 task_description=fake.paragraph(nb_sentences=3),
                 task_deadline=timezone.make_aware(fake.date_time_this_month()),
                 task_status=fake.random_element(elements=["Pending", "In Progress", "Completed"]),
-                task_category=Category.objects.order_by('?').first(),
-                task_priority=Priority.objects.order_by('?').first()
+                task_category=category,
+                task_priority=priority
             )
 
         self.stdout.write(self.style.SUCCESS(

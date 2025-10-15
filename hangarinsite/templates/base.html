@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %} {% load pwa %}
 <!doctype html>
 <html lang="en">
 
@@ -354,8 +354,10 @@
     .navbar-collapse {
       flex-grow: 0;
     }
-  </style>
+  </style>  
+  {% progressive_web_app_meta %}
 </head>
+
 
 <body>
   <!--  Body Wrapper -->
@@ -475,12 +477,7 @@
           <!-- Quick Actions (RIGHT SIDE) -->
           <div class="navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav flex-row align-items-center justify-content-end gap-3">
-              <!-- Quick Action Button -->
-              <li class="nav-item">
-                <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/" target="_blank" class="btn btn-primary">
-                  App Dev
-                </a>
-              </li>
+              
 
               <!-- Notification Bell - Fixed -->
               <li class="nav-item dropdown">
